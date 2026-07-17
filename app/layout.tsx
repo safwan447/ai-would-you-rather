@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 };
 
 const githubUrl =
-  process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/your-username/ai-would-you-rather";
+  process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/safwan447/ai-would-you-rather";
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

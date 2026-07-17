@@ -51,7 +51,7 @@ Then add your OpenAI key:
 
 ```bash
 OPENAI_API_KEY=your_openai_api_key_here
-NEXT_PUBLIC_GITHUB_URL=https://github.com/your-username/ai-would-you-rather
+NEXT_PUBLIC_GITHUB_URL=https://github.com/safwan447/ai-would-you-rather
 ```
 
 The API key is only used by the server route at `app/api/dilemma/route.ts` and is never exposed to the browser.

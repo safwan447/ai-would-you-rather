@@ -3,7 +3,7 @@ import { ArcadeLink } from "@/components/arcade-button";
 import { RetroBackground } from "@/components/retro-background";
 
 const githubUrl =
-  process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/your-username/ai-would-you-rather";
+  process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/safwan447/ai-would-you-rather";
 
 export default function HomePage() {
   return (
