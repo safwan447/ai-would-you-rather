@@ -1,0 +1,9 @@
+{
+  "name": "AI Would You Rather?",
+  "short_name": "AI Rather",
+  "description": "A retro arcade AI-powered Would You Rather game.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A"
+}
