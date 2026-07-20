@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Dict, List, Literal
 
 import streamlit as st
-
+from fpdf import FPDF
 
 Trait = Literal["explorer", "creator", "strategist", "storyteller", "taste"]
 
@@ -385,17 +385,31 @@ def render_question(question: Question) -> None:
             st.rerun()
 
 
+def generate_pdf_report(title: str, tagline: str, project: str) -> bytes:
+    pdf = FPDF()
+    pdf.add_page()
+    
+    # Header
+    pdf.set_font("helvetica", "B", 18)
+    pdf.cell(0, 10, "AI Would You Rather? - Final Result", ln=True, align="C")
+    pdf.ln(10)
+    
+    # Title
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 10, f"Profile: {title}", ln=True)
+    pdf.ln(5)
+    
+    # Tagline & Project
+    pdf.set_font("helvetica", "", 12)
+    pdf.multi_cell(0, 8, f"{tagline}\n\n{project}")
+    
+    return pdf.output()
+
+
 def render_result() -> None:
     winner = top_trait()
     result = RESULTS[winner]
     scores = st.session_state.scores
-    export_data = {
-        "result": result,
-        "scores": scores,
-        "history": st.session_state.history,
-        "started_at": st.session_state.started_at,
-        "finished_at": datetime.now().isoformat(timespec="seconds"),
-    }
 
     st.progress(1.0)
     st.markdown(
@@ -417,11 +431,13 @@ def render_result() -> None:
             st.rerun()
 
     with right:
+        pdf_bytes = generate_pdf_report(result["title"], result["tagline"], result["project"])
+        
         st.download_button(
-            "Download result",
-            data=json.dumps(export_data, indent=2),
-            file_name="ai-would-you-rather-result.json",
-            mime="application/json",
+            label="Download Result (PDF)",
+            data=pdf_bytes,
+            file_name="ai-would-you-rather-result.pdf",
+            mime="application/pdf",
             use_container_width=True,
         )
 
