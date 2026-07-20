@@ -38,29 +38,29 @@ TRAIT_LABELS: Dict[Trait, str] = {
 
 RESULTS: Dict[Trait, Dict[str, str]] = {
     "explorer": {
-        "title": "Your favorite world is: The Neon Space Expedition",
-        "tagline": "You like wonder, movement, big ideas, and questions that feel larger than daily life.",
-        "project": "Best project match: an AI space-travel dilemma generator with planet cards and route choices.",
+        "title": "Neon Space Expedition",
+        "tagline": "You like wonder, movement, and big imaginative choices.",
+        "project": "Build idea: an AI space-travel picker with planet cards and route choices.",
     },
     "creator": {
-        "title": "Your favorite world is: The Cozy Maker Studio",
-        "tagline": "You prefer comfort, expression, aesthetics, and choices that let you build something personal.",
-        "project": "Best project match: an AI mood-board game that recommends rooms, outfits, or mini playlists.",
+        "title": "Cozy Maker Studio",
+        "tagline": "You prefer comfort, creativity, and personal expression.",
+        "project": "Build idea: an AI mood-board game for rooms, outfits, or mini playlists.",
     },
     "strategist": {
-        "title": "Your favorite world is: The Retro Strategy Arcade",
-        "tagline": "You enjoy rules, trade-offs, progress, and decisions where every move changes the outcome.",
-        "project": "Best project match: an AI decision-tree game with scores, paths, and unlockable endings.",
+        "title": "Retro Strategy Arcade",
+        "tagline": "You enjoy trade-offs, progress, and choices with consequences.",
+        "project": "Build idea: an AI decision-tree game with paths and unlockable endings.",
     },
     "storyteller": {
-        "title": "Your favorite world is: The Cinematic Story Portal",
-        "tagline": "You are drawn to characters, plot twists, imagination, and choices with emotional flavor.",
-        "project": "Best project match: an AI story quiz that turns choices into a short movie-like ending.",
+        "title": "Cinematic Story Portal",
+        "tagline": "You are drawn to characters, plot twists, and emotional choices.",
+        "project": "Build idea: an AI story quiz that turns choices into a movie-like ending.",
     },
     "taste": {
-        "title": "Your favorite world is: The Food and Travel Quest",
-        "tagline": "You choose through senses, places, novelty, and experiences you can imagine living.",
-        "project": "Best project match: an AI travel-food recommender that discovers your ideal day out.",
+        "title": "Food and Travel Quest",
+        "tagline": "You choose through places, flavors, and memorable experiences.",
+        "project": "Build idea: an AI travel-food recommender for your ideal day out.",
     },
 }
 
@@ -240,28 +240,67 @@ def render_styles() -> None:
             color: #F8FAFC;
         }
         .main .block-container {
-            max-width: 1050px;
+            max-width: 900px;
             padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        [data-testid="stSidebar"], [data-testid="collapsedControl"] {
+            display: none;
         }
         .arcade-card {
             border: 1px solid rgba(0, 245, 255, 0.45);
             background: rgba(15, 23, 42, 0.82);
-            box-shadow: 0 0 28px rgba(0, 245, 255, 0.18), inset 0 0 28px rgba(255, 60, 172, 0.08);
-            padding: 1.25rem;
+            box-shadow: 0 0 22px rgba(0, 245, 255, 0.14), inset 0 0 20px rgba(255, 60, 172, 0.06);
+            padding: 1rem 1.15rem;
             border-radius: 4px;
-            margin-bottom: 1rem;
+            margin-bottom: .85rem;
+        }
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: .75rem;
+        }
+        .status-pill {
+            border: 1px solid rgba(255, 230, 0, 0.4);
+            color: #FFE600;
+            padding: .4rem .65rem;
+            border-radius: 999px;
+            font-size: .78rem;
+            font-weight: 800;
+            white-space: nowrap;
         }
         .pixel {
             font-family: "Lucida Console", "Courier New", monospace;
             text-transform: uppercase;
             letter-spacing: 0;
         }
+        .app-title {
+            font-size: clamp(2rem, 6vw, 3.6rem);
+            line-height: 1.05;
+            margin: .15rem 0 .45rem;
+        }
+        .result-title {
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            line-height: 1.05;
+            margin: .25rem 0 .85rem;
+        }
+        .question-title {
+            font-size: clamp(1.45rem, 4vw, 2.35rem);
+            line-height: 1.18;
+            margin: .2rem 0;
+        }
+        .muted {
+            color: rgba(248, 250, 252, .72);
+            margin: 0;
+        }
         .neon-title {
-            text-shadow: 0 0 10px rgba(0,245,255,.8), 0 0 26px rgba(255,60,172,.45);
+            text-shadow: 0 0 8px rgba(0,245,255,.65), 0 0 18px rgba(255,60,172,.3);
         }
         .small-label {
             color: #FFE600;
-            font-size: .78rem;
+            font-size: .72rem;
             text-transform: uppercase;
             font-weight: 800;
         }
@@ -273,8 +312,9 @@ def render_styles() -> None:
             border: 1px solid rgba(0, 245, 255, 0.55);
             background: rgba(0, 245, 255, 0.12);
             color: #F8FAFC;
-            min-height: 4.25rem;
+            min-height: 3.6rem;
             font-weight: 800;
+            white-space: normal;
             transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
         }
         .stButton > button:hover {
@@ -283,7 +323,31 @@ def render_styles() -> None:
             border-color: rgba(255, 230, 0, 0.75);
             box-shadow: 0 0 24px rgba(255, 60, 172, 0.22);
         }
+        @media (max-width: 700px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+            .status-pill {
+                white-space: normal;
+            }
+        }
         </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_header() -> None:
+    st.markdown(
+        """
+        <div class="topbar">
+            <div>
+                <div class="small-label">Adaptive choice game</div>
+                <h1 class="pixel neon-title app-title">AI Would You Rather?</h1>
+                <p class="muted">Answer 7 choices. Get one final result.</p>
+            </div>
+        </div>
         """,
         unsafe_allow_html=True,
     )
@@ -297,9 +361,11 @@ def render_question(question: Question) -> None:
     st.markdown(
         f"""
         <div class="arcade-card">
-            <div class="small-label">Round {round_number} of {total_rounds} | Current signal: {TRAIT_LABELS[top_trait()]}</div>
-            <h2 class="pixel neon-title">Would you rather...</h2>
-            <p style="font-size:1.25rem;font-weight:800;">{question.prompt}</p>
+            <div class="topbar">
+                <div class="small-label">Round {round_number} / {total_rounds}</div>
+                <div class="status-pill">{TRAIT_LABELS[top_trait()]}</div>
+            </div>
+            <h2 class="pixel neon-title question-title">{question.prompt}</h2>
         </div>
         """,
         unsafe_allow_html=True,
@@ -307,16 +373,12 @@ def render_question(question: Question) -> None:
 
     left, right = st.columns(2)
     with left:
-        st.markdown(f"**A. {question.option_a.label}**")
-        st.caption(question.option_a.description)
-        if st.button("Choose A", use_container_width=True):
+        if st.button(f"A. {question.option_a.label}", use_container_width=True):
             choose_option(question, "A", question.option_a)
             st.rerun()
 
     with right:
-        st.markdown(f"**B. {question.option_b.label}**")
-        st.caption(question.option_b.description)
-        if st.button("Choose B", use_container_width=True):
+        if st.button(f"B. {question.option_b.label}", use_container_width=True):
             choose_option(question, "B", question.option_b)
             st.rerun()
 
@@ -333,43 +395,41 @@ def render_result() -> None:
         "finished_at": datetime.now().isoformat(timespec="seconds"),
     }
 
-    st.balloons()
     st.progress(1.0)
     st.markdown(
         f"""
         <div class="arcade-card">
-            <div class="small-label">Final recommendation</div>
-            <h1 class="pixel neon-title">{result["title"]}</h1>
-            <p style="font-size:1.1rem;">{result["tagline"]}</p>
-            <p><strong>{result["project"]}</strong></p>
+            <div class="small-label">Your final result</div>
+            <h1 class="pixel neon-title result-title">{result["title"]}</h1>
+            <p style="font-size:1.08rem;margin-bottom:.65rem;">{result["tagline"]}</p>
+            <p style="margin:0;"><strong>{result["project"]}</strong></p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.subheader("Why this result?")
-    st.write(
-        "Each answer added points to a preference profile. The next question used your strongest signal, "
-        "so the quiz narrowed down instead of asking random questions forever."
-    )
+    left, right = st.columns(2)
+    with left:
+        if st.button("Play again", use_container_width=True):
+            reset_game()
+            st.rerun()
 
-    st.bar_chart(scores)
+    with right:
+        st.download_button(
+            "Download result",
+            data=json.dumps(export_data, indent=2),
+            file_name="ai-would-you-rather-result.json",
+            mime="application/json",
+            use_container_width=True,
+        )
 
-    with st.expander("Your choice path"):
+    with st.expander("Details"):
+        st.caption("Trait score")
+        st.bar_chart(scores)
+
+        st.caption("Choice path")
         for item in st.session_state.history:
             st.write(f"Round {item['round']}: {item['selected_side']} - {item['selected_option']}")
-
-    st.download_button(
-        "Download result JSON",
-        data=json.dumps(export_data, indent=2),
-        file_name="ai-would-you-rather-result.json",
-        mime="application/json",
-        use_container_width=True,
-    )
-
-    if st.button("Play again", use_container_width=True):
-        reset_game()
-        st.rerun()
 
 
 def main() -> None:
@@ -377,33 +437,11 @@ def main() -> None:
         page_title="AI Would You Rather?",
         page_icon="?",
         layout="wide",
-        initial_sidebar_state="expanded",
+        initial_sidebar_state="collapsed",
     )
     init_state()
     render_styles()
-
-    with st.sidebar:
-        st.markdown("### AI Would You Rather?")
-        st.write("A guided decision game that discovers your favorite adventure style.")
-        st.metric("Questions", f"{min(st.session_state.step, len(QUESTIONS))}/{len(QUESTIONS)}")
-        st.metric("Leading result", TRAIT_LABELS[top_trait()])
-        if st.button("Restart", use_container_width=True):
-            reset_game()
-            st.rerun()
-
-    st.markdown(
-        """
-        <div class="arcade-card">
-            <div class="small-label">Retro decision engine</div>
-            <h1 class="pixel neon-title">AI Would You Rather?</h1>
-            <p style="font-size:1.15rem;">
-                Answer a short chain of choices. Each answer narrows the next question, then the game
-                ends with your favorite adventure world and a project-style recommendation.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    render_header()
 
     if st.session_state.step >= len(QUESTIONS):
         render_result()

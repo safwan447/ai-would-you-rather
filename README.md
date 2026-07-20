@@ -35,7 +35,7 @@ This makes the game feel like a guided recommender instead of an infinite random
 - Adaptive question narrowing based on player choices.
 - Final recommendation screen.
 - Retro arcade styling with neon colors and dark theme.
-- Progress indicator, sidebar metrics, restart button, balloons, and result export.
+- Clean centered layout with a progress bar, two choice buttons, final result, and optional details.
 - No API key required for the Streamlit version.
 - Previous Next.js version is still included in the repository for reference.
 
