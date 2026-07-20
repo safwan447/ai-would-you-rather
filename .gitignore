@@ -11,10 +11,17 @@ tsconfig.tsbuildinfo
 build
 dist
 
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
 # env
 .env
 .env.local
 .env.*.local
+.streamlit/secrets.toml
 
 # logs
 npm-debug.log*

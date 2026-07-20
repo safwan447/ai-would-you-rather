@@ -1,111 +1,122 @@
 # AI Would You Rather?
 
-A polished retro arcade web game that generates safe, creative "Would You Rather?" dilemmas with AI. Built for a Samsung Innovation Campus mini project portfolio using Next.js, TypeScript, Tailwind CSS, Framer Motion, Lucide icons, and the OpenAI API.
+A retro arcade decision game built for a Samsung Innovation Campus mini project portfolio.
+
+The reviewer feedback was that an endless "choose A or B" game felt vague, so the project now has a clear endpoint: each answer updates a preference profile, the next question adapts to the strongest signal, and the final screen recommends the player's favorite adventure world.
+
+## Live Hosting
+
+Primary hosting target: Streamlit Community Cloud.
+
+Main app file:
+
+```text
+streamlit_app.py
+```
+
+## What The App Does
+
+1. The player answers a "Would you rather..." question.
+2. Each selected option adds points to traits such as explorer, creator, strategist, storyteller, and taste.
+3. The next question is selected based on the current strongest trait.
+4. After seven rounds, the game ends with a concrete result:
+   - Favorite adventure world
+   - Personality-style explanation
+   - Recommended mini-project direction
+   - Score chart
+   - Downloadable JSON result
+
+This makes the game feel like a guided recommender instead of an infinite random-question loop.
 
 ## Features
 
-- AI-generated dilemmas returned as strict JSON.
-- Safe local fallback dilemmas when `OPENAI_API_KEY` is not configured.
-- Retro arcade UI with CRT scan lines, neon cards, glow effects, particles, and animated controls.
-- Difficulty, category, round count, and sound effect settings.
-- Score tracking, current streak, question count, and choices made.
-- Skip, copy, share, play again, keyboard shortcuts, and every-10-round confetti.
-- Local storage history, favorites, statistics, and JSON history export.
-- Responsive layout for desktop, tablet, and mobile.
-- Accessible buttons, labels, keyboard navigation, and high contrast colors.
-
-## Screenshots
-
-Add screenshots after deployment:
-
-- `docs/screenshots/home.png`
-- `docs/screenshots/game.png`
-- `docs/screenshots/stats.png`
+- Streamlit-ready app with `requirements.txt`.
+- Clear seven-question endpoint.
+- Adaptive question narrowing based on player choices.
+- Final recommendation screen.
+- Retro arcade styling with neon colors and dark theme.
+- Progress indicator, sidebar metrics, restart button, balloons, and result export.
+- No API key required for the Streamlit version.
+- Previous Next.js version is still included in the repository for reference.
 
 ## Tech Stack
 
-- Next.js App Router
+Primary:
+
+- Python
+- Streamlit
+
+Previous web version:
+
+- Next.js
 - React
 - TypeScript
 - Tailwind CSS
 - Framer Motion
-- Lucide React Icons
-- OpenAI API
-- Vercel-ready deployment
 
-## Installation
+## Run Locally
 
-```bash
-pnpm install
-```
-
-## Environment Setup
-
-Create a local environment file:
+Install dependencies:
 
 ```bash
-cp .env.example .env.local
+pip install -r requirements.txt
 ```
 
-Then add your OpenAI key:
+Run the Streamlit app:
 
 ```bash
-OPENAI_API_KEY=your_openai_api_key_here
-NEXT_PUBLIC_GITHUB_URL=https://github.com/safwan447/ai-would-you-rather
+streamlit run streamlit_app.py
 ```
 
-The API key is only used by the server route at `app/api/dilemma/route.ts` and is never exposed to the browser.
+Open the local URL shown by Streamlit, usually:
 
-## Running Locally
-
-```bash
-pnpm dev
+```text
+http://localhost:8501
 ```
 
-Open `http://localhost:3000`.
+## Deploy To Streamlit Community Cloud
 
-## Quality Checks
+1. Push this repository to GitHub.
+2. Go to [Streamlit Community Cloud](https://share.streamlit.io/).
+3. Create a new app from:
 
-```bash
-pnpm typecheck
-pnpm lint
-pnpm build
+```text
+safwan447/ai-would-you-rather
 ```
 
-## Deploying to Vercel
+4. Set the main file path to:
 
-1. Push the project to GitHub.
-2. Import the repository in Vercel.
-3. Add `OPENAI_API_KEY` in Vercel Project Settings under Environment Variables.
-4. Deploy.
+```text
+streamlit_app.py
+```
 
-The app still works without the key because it uses local fallback dilemmas, but AI generation requires `OPENAI_API_KEY`.
+5. Deploy.
+
+Streamlit Cloud will install dependencies from `requirements.txt`.
 
 ## Folder Structure
 
 ```text
-app/
-  api/dilemma/       Server route for dilemma generation
-  game/              Main playable game
-  stats/             Local statistics dashboard
-components/          Reusable UI components
-hooks/               Local storage and sound hooks
-lib/                 Fallback dilemma data
-services/            OpenAI generation service
-types/               Shared TypeScript types
-utils/               Game helpers and export utilities
-public/              Static assets
-styles/              Reserved for extra style modules
+streamlit_app.py          Primary Streamlit app
+requirements.txt          Streamlit Cloud dependencies
+.streamlit/config.toml    Streamlit theme config
+app/                      Previous Next.js App Router version
+components/               Previous React components
+hooks/                    Previous React hooks
+lib/                      Fallback dilemma data
+services/                 Previous OpenAI service
+types/                    TypeScript types
+utils/                    Game helpers
+public/                   Static assets
 ```
 
 ## Future Improvements
 
-- User accounts and cloud-synced history.
-- Multiplayer voting rooms.
-- Shareable daily challenge links.
-- More AI categories and custom prompt themes.
-- Real audio sprites and visualizer effects.
-- Screenshot export for favorite dilemmas.
+- Add more result categories.
+- Add a settings panel for quiz length.
+- Add optional OpenAI-generated final messages.
+- Add shareable result cards.
+- Store aggregate stats across sessions.
 
 ## License
 
