@@ -7,15 +7,16 @@ from typing import Dict, List, Literal
 
 import streamlit as st
 from fpdf import FPDF
-from openai import OpenAI
 
 Trait = Literal["explorer", "creator", "strategist", "storyteller", "taste"]
+
 
 @dataclass(frozen=True)
 class Option:
     label: str
     description: str
     scores: Dict[Trait, int]
+
 
 @dataclass(frozen=True)
 class Question:
@@ -25,6 +26,7 @@ class Question:
     option_a: Option
     option_b: Option
 
+
 TRAIT_LABELS: Dict[Trait, str] = {
     "explorer": "Cosmic Explorer",
     "creator": "Cozy Creator",
@@ -32,6 +34,7 @@ TRAIT_LABELS: Dict[Trait, str] = {
     "storyteller": "Story Dreamer",
     "taste": "Taste Hunter",
 }
+
 
 RESULTS: Dict[Trait, Dict[str, str]] = {
     "explorer": {
@@ -60,6 +63,7 @@ RESULTS: Dict[Trait, Dict[str, str]] = {
         "project": "Build idea: an AI travel-food recommender for your ideal day out.",
     },
 }
+
 
 QUESTIONS: List[Question] = [
     Question(
@@ -169,6 +173,7 @@ QUESTIONS: List[Question] = [
     ),
 ]
 
+
 def init_state() -> None:
     if "step" not in st.session_state:
         st.session_state.step = 0
@@ -179,11 +184,13 @@ def init_state() -> None:
     if "started_at" not in st.session_state:
         st.session_state.started_at = datetime.now().isoformat(timespec="seconds")
 
+
 def reset_game() -> None:
     st.session_state.step = 0
     st.session_state.scores = {trait: 0 for trait in TRAIT_LABELS}
     st.session_state.history = []
     st.session_state.started_at = datetime.now().isoformat(timespec="seconds")
+
 
 def choose_option(question: Question, side: Literal["A", "B"], option: Option) -> None:
     for trait, points in option.scores.items():
@@ -200,9 +207,11 @@ def choose_option(question: Question, side: Literal["A", "B"], option: Option) -
     )
     st.session_state.step += 1
 
+
 def top_trait() -> Trait:
     scores: Dict[Trait, int] = st.session_state.scores
     return max(scores, key=lambda trait: (scores[trait], -list(TRAIT_LABELS).index(trait)))
+
 
 def get_next_question() -> Question:
     asked_ids = {item["question"] for item in st.session_state.history}
@@ -217,6 +226,7 @@ def get_next_question() -> Question:
             return question
 
     return QUESTIONS[-1]
+
 
 def render_styles() -> None:
     st.markdown(
@@ -329,6 +339,7 @@ def render_styles() -> None:
         unsafe_allow_html=True,
     )
 
+
 def render_header() -> None:
     st.markdown(
         """
@@ -342,6 +353,7 @@ def render_header() -> None:
         """,
         unsafe_allow_html=True,
     )
+
 
 def render_question(question: Question) -> None:
     round_number = st.session_state.step + 1
@@ -372,6 +384,7 @@ def render_question(question: Question) -> None:
             choose_option(question, "B", question.option_b)
             st.rerun()
 
+
 def generate_pdf_report(title: str, tagline: str, project: str) -> bytes:
     pdf = FPDF()
     pdf.add_page()
@@ -393,68 +406,25 @@ def generate_pdf_report(title: str, tagline: str, project: str) -> bytes:
     # Ensures Streamlit accepts the file download correctly
     return bytes(pdf.output())
 
-def generate_ai_profile(history: List[Dict], top_trait: str) -> str:
-    """Calls OpenAI to generate a dynamic profile based on game history."""
-    if "OPENAI_API_KEY" not in st.secrets:
-        return "⚠️ OpenAI API key not found in Streamlit Secrets. (Falling back to default rules)."
-    
-    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-    
-    choices_text = "\n".join([
-        f"- Round {item['round']}: Chose '{item['selected_option']}'" 
-        for item in history
-    ])
-    
-    prompt = f"""
-    You are an insightful and fun AI analyzing a player's choices in a 'Would You Rather' game. 
-    Their dominant personality archetype was calculated as: {top_trait.upper()}.
-    
-    Here are the specific choices they made:
-    {choices_text}
-    
-    Based on these exact choices, write a personalized 3-sentence personality profile explaining why they made those choices. 
-    Then, suggest a specific, fun mini-project they should build next that fits their vibe.
-    Keep the tone playful, slightly neon/cyberpunk, and encouraging.
-    """
-    
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=250,
-            temperature=0.7
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"⚠️ The AI encountered an error: {str(e)}"
 
 def render_result() -> None:
     winner = top_trait()
     result = RESULTS[winner]
     scores = st.session_state.scores
-    history = st.session_state.history
 
     st.progress(1.0)
     
-    # Display the base result card first so the UI doesn't look empty while loading
     st.markdown(
         f"""
         <div class="arcade-card">
-            <div class="small-label">Your core archetype</div>
+            <div class="small-label">Your final result</div>
             <h1 class="pixel neon-title result-title">{result["title"]}</h1>
             <p style="font-size:1.08rem;margin-bottom:.65rem;">{result["tagline"]}</p>
+            <p style="margin:0;"><strong>{result["project"]}</strong></p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    
-    # Generate the AI profile with a loading spinner
-    with st.spinner("The AI is analyzing your specific choices..."):
-        ai_generated_text = generate_ai_profile(history, TRAIT_LABELS[winner])
-
-    # Display the AI analysis dynamically
-    st.markdown("### 🤖 AI Analysis")
-    st.info(ai_generated_text)
 
     left, right = st.columns(2)
     with left:
@@ -479,8 +449,9 @@ def render_result() -> None:
         st.bar_chart(scores)
 
         st.caption("Choice path")
-        for item in history:
+        for item in st.session_state.history:
             st.write(f"Round {item['round']}: {item['selected_side']} - {item['selected_option']}")
+
 
 def main() -> None:
     st.set_page_config(
@@ -497,6 +468,7 @@ def main() -> None:
         render_result()
     else:
         render_question(get_next_question())
+
 
 if __name__ == "__main__":
     main()
