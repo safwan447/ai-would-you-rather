@@ -37,22 +37,11 @@ This makes the game feel like a guided recommender instead of an infinite random
 - Retro arcade styling with neon colors and dark theme.
 - Clean centered layout with a progress bar, two choice buttons, final result, and optional details.
 - No API key required for the Streamlit version.
-- Previous Next.js version is still included in the repository for reference.
 
 ## Tech Stack
 
-Primary:
-
 - Python
 - Streamlit
-
-Previous web version:
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion
 
 ## Run Locally
 
@@ -78,12 +67,7 @@ http://localhost:8501
 
 1. Push this repository to GitHub.
 2. Go to [Streamlit Community Cloud](https://share.streamlit.io/).
-3. Create a new app from:
-
-```text
-safwan447/ai-would-you-rather
-```
-
+3. Create a new app from your repository.
 4. Set the main file path to:
 
 ```text
@@ -100,14 +84,6 @@ Streamlit Cloud will install dependencies from `requirements.txt`.
 streamlit_app.py          Primary Streamlit app
 requirements.txt          Streamlit Cloud dependencies
 .streamlit/config.toml    Streamlit theme config
-app/                      Previous Next.js App Router version
-components/               Previous React components
-hooks/                    Previous React hooks
-lib/                      Fallback dilemma data
-services/                 Previous OpenAI service
-types/                    TypeScript types
-utils/                    Game helpers
-public/                   Static assets
 ```
 
 ## Future Improvements

@@ -312,8 +312,10 @@ def render_styles() -> None:
             border: 1px solid rgba(0, 245, 255, 0.55);
             background: rgba(0, 245, 255, 0.12);
             color: #F8FAFC;
-            min-height: 3.6rem;
+            min-height: 5.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
+            padding: 1rem;
             white-space: normal;
             transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
         }
