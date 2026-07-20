@@ -1,5 +1,7 @@
 # AI Would You Rather?
 
+**Live App:** [Play AI Would You Rather?](https://ai-would-you-rather-77pnrcphpbyczyhgsyhbwr.streamlit.app/)
+
 A retro arcade decision game built for a Samsung Innovation Campus mini project portfolio.
 
 The reviewer feedback was that an endless "choose A or B" game felt vague, so the project now has a clear endpoint: each answer updates a preference profile, the next question adapts to the strongest signal, and the final screen recommends the player's favorite adventure world.
@@ -24,7 +26,7 @@ streamlit_app.py
    - Personality-style explanation
    - Recommended mini-project direction
    - Score chart
-   - Downloadable JSON result
+   - Downloadable PDF result
 
 This makes the game feel like a guided recommender instead of an infinite random-question loop.
 
