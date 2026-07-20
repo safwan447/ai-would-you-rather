@@ -1,6 +1,6 @@
 # AI Would You Rather?
 
-**Live App:** [Play AI Would You Rather?](https://ai-would-you-rather-77pnrcphpbyczyhgsyhbwr.streamlit.app/)
+**Live App:** <a href="https://ai-would-you-rather-77pnrcphpbyczyhgsyhbwr.streamlit.app/" target="_blank" rel="noopener noreferrer">Play AI Would You Rather?</a>
 
 A retro arcade decision game built for a Samsung Innovation Campus mini project portfolio.
 
