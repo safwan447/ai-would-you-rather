@@ -403,7 +403,8 @@ def generate_pdf_report(title: str, tagline: str, project: str) -> bytes:
     pdf.set_font("helvetica", "", 12)
     pdf.multi_cell(0, 8, f"{tagline}\n\n{project}")
     
-    return pdf.output()
+    # Fix: Convert the fpdf2 bytearray output to standard bytes for Streamlit
+    return bytes(pdf.output())
 
 
 def render_result() -> None:
